@@ -148,7 +148,7 @@ def home(request):
 
     if filter_type == 'completed':
         tasks = Task.objects.filter(user=request.user, is_completed=True)
-    elif filter_type == 'imcompleted':
+    elif filter_type == 'incomplete':
         tasks = Task.objects.filter(user=request.user, is_completed=False)
     elif filter_type == 'important':
         tasks = Task.objects.filter(user=request.user, priority='high')
@@ -195,8 +195,8 @@ def delete_task(request, task_id):
     return redirect('home')
 
 @login_required
-def delete_completed_tasks(request, task_id):
-    task = Task.objects.get(user=request.user, is_completed=True)
+def delete_completed_tasks(request):
+    task = Task.objects.filter(user=request.user, is_completed=True)
     task.delete()
     messages.success(request, "সম্পূর্ণ কাজগুলো মুছে ফেলা হয়েছে।")
     return redirect('home')
