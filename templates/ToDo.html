@@ -369,7 +369,6 @@
 </head>
 <body>
 
-
     <div class="container">
         
         <img src="/static/profile.png" alt='image' height='42' width='42'>
@@ -414,22 +413,22 @@
         <form method="POST" class="add-todo-form">
             {% csrf_token %}
             <div class="form-group">
-                <input type="text" name="title" class="todo-input" placeholder="নতুন কাজ লিখুন..." maxlength="200" required>
+                <input type="text" name="title" class="todo-input" placeholder="New Task..." maxlength="200" required>
                 <select name="priority" class="priority-select">
-                    <option value="low">কম গুরুত্বপূর্ণ</option>
-                    <option value="medium" selected>মাঝারি গুরুত্বপূর্ণ</option>
-                    <option value="high">অত্যন্ত গুরুত্বপূর্ণ</option>
+                    <option value="low">LOW</option>
+                    <option value="medium" selected>MEDIUM</option>
+                    <option value="high">HIGH</option>
                 </select>
-                <button type="submit" class="add-btn">➕ যোগ করুন</button>
+                <button type="submit" class="add-btn">➕ Add Task</button>
             </div>
         </form>
 
         <!-- Filter Links -->
         <div class="filters">
-            <a href="#" class="filter-link active">সবগুলো</a>
-            <a href="#" class="filter-link">অসম্পূর্ণ</a>
-            <a href="#" class="filter-link">সম্পূর্ণ</a>
-            <a href="#" class="filter-link">গুরুত্বপূর্ণ</a>
+            <a href="{% url 'home' %}?filter=all" class="filter-link active">All Task</a>
+            <a href="{% url 'home' %}?filter=incomplete" class="filter-link">INCOMPLETE</a>
+            <a href="{% url 'home' %}?filter=completed" class="filter-link">COMPLETED</a>
+            <a href="{% url 'home' %}?filter=important" class="filter-link">IMPORTANT</a>
         </div>
 
         <!-- Todo List -->
@@ -444,16 +443,16 @@
                         {% if task.is_completed %}checked{% endif %}>
                 </form>
 
-                    <div class="todo-text">{{ task.title }}</div>
-                    <div class="todo-priority
-                    {% if task.priority == 'high' %}priority-high
-                    {% elif task.priority == 'medium' %}priority-medium
-                    {% else %}priority-low
-                    {% endif %}
-                    ">
-                        {{ task.get_priority_display }}
-                    </div>
-                    <div class="todo-date">{{ task.created_at|date:"d M, Y - h:i A" }}</div>
+                <div class="todo-text">{{ task.title }}</div>
+                <div class="todo-priority
+                {% if task.priority == 'high' %}priority-high
+                {% elif task.priority == 'medium' %}priority-medium
+                {% else %}priority-low
+                {% endif %}
+                "> {{ task.priority }}
+                    
+                </div>
+                <div class="todo-date">{{ task.created_at|date:"d M, Y - h:i A" }}</div>
                     <form action="{% url 'delete_task' task.id %}" method="POST">
                         {% csrf_token %}
                         <button class="delete-btn">🗑️</button>
@@ -465,9 +464,12 @@
         </div>
 
         <!-- Clear Completed Button -->
-        <div class="clear-completed">
-            <button class="clear-btn">✅ সম্পূর্ণ কাজগুলো মুছে ফেলুন</button>
-        </div>
+        <form action="{% url 'delete_completed' %}" method='POST'>
+            {% csrf_token %}
+            <div class="clear-completed">
+                <button class="clear-btn">✅ Delete all completed Task</button>
+            </div>
+        </form>
     </div>
 </body>
 </html>
