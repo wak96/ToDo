@@ -11,9 +11,9 @@ class PasswordReset(models.Model):
 
 class Task(models.Model):
     priority_list = [
-        ("low", "কম গুরুত্বপূর্ণ"),
-        ("medium", "মাঝারি"),
-        ("high", "গুরুত্বপূর্ণ"),
+        ("low", "Low"),
+        ("medium", "Medium"),
+        ("high", "High"),
     ] 
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
