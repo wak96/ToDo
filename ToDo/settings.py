@@ -137,4 +137,5 @@ EMAIL_USE_TLS = False
 EMAIL_HOST_USER = "walidayaankawsar@gmail.com"
 EMAIL_HOST_PASSWORD = "bass czeb ymqv zbyb"
 
+LOGIN_URL = 'login'
 
